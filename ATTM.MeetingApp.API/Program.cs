@@ -40,9 +40,12 @@ catch (Exception ex)
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    // app.UseSwagger();
+    // app.UseSwaggerUI();
+}
+    //Swagger is my frontend 
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
 app.UseCustomExceptionHandler()
     .UseHttpsRedirection()
