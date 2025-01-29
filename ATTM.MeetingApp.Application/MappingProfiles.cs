@@ -1,4 +1,5 @@
 ﻿using ATTM.MeetingApp.Application.Features.Meetings.Commands.CreateMeeting;
+using ATTM.MeetingApp.Application.Features.Meetings.Commands.UpdateMeeting;
 using ATTM.MeetingApp.Application.Features.Meetings.Queries.GetMeeting;
 using ATTM.MeetingApp.Application.Features.Meetings.Queries.GetMeetingList;
 using ATTM.MeetingApp.Domain.Entities;
@@ -18,6 +19,7 @@ namespace ATTM.MeetingApp.Application
             CreateMap<Meeting, MeetingVM>().ReverseMap();
             CreateMap<Meeting, MeetingListVM>().ReverseMap();
             CreateMap<Meeting, CreateMeetingCommand>().ReverseMap();
+            CreateMap<Meeting, UpdateMeetingCommand>().ReverseMap();
         }
     }
 }
