@@ -1,0 +1,76 @@
+# Ignore Visual Studio temporary files, build results, and
+# user-specific files
+.vs/
+*.suo
+*.user
+*.userossc
+*.sln.docstates
+*.vcxproj.user
+
+# Ignore Visual Studio Code settings
+.vscode/
+
+# Ignore build outputs
+bin/
+obj/
+out/
+
+# Ignore dependencies
+packages/
+!packages/repositories.config
+
+# Ignore NuGet package cache
+**/project.lock.json
+**/project.assets.json
+**/packages.lock.json
+
+# Ignore dotnet tool settings
+**/.dotnet_tools/
+**/.store/
+**/.nuget/
+
+# Ignore Rider / JetBrains IDEs
+.idea/
+*.sln.iml
+
+# Ignore .NET Core & .NET 5+ debug, publish, and log files
+*.log
+*.vspscc
+*.vssscc
+*.pdb
+*.cache
+*.ilk
+*.obj
+*.exe
+*.dll
+*.nupkg
+*.snupkg
+
+# Ignore coverage results
+coverage/
+TestResults/
+*.coverage
+*.coveragexml
+
+# Ignore UserSecrets
+**/secrets.json
+
+# Ignore ASP.NET runtime files
+appsettings.Development.json
+appsettings.Local.json
+appsettings.Secrets.json
+
+# Ignore local databases
+*.mdf
+*.ldf
+*.db
+
+# Ignore Docker artifacts
+**/.dockerignore
+**/docker-compose.override.yml
+
+# Ignore Mac/Linux system files
+.DS_Store
+*.swp
+*.swo
+*.swn
