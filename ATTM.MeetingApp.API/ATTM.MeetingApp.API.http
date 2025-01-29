@@ -1,6 +1,6 @@
 @ATTM.MeetingApp.API_HostAddress = http://localhost:5062
 
-GET {{ATTM.MeetingApp.API_HostAddress}}/weatherforecast/
+GET {{ATTM.MeetingApp.API_HostAddress}}/meetings/
 Accept: application/json
 
 ###
