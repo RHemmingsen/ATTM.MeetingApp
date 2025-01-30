@@ -20,23 +20,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-using var scope = app.Services.CreateScope();
-try
-{
-    var context = scope.ServiceProvider.GetService<MeetingDbContext>();
-    if (context == null)
-    {
-        return;
-    }
-    //Undgå som udgangspunkt at bruge EnsureDeletedAsync i produktion
-    await context.Database.EnsureDeletedAsync();
-    await context.Database.MigrateAsync();
-}
-catch (Exception ex)
-{
-    Console.WriteLine(ex.Message);
-}
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
