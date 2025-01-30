@@ -8,11 +8,5 @@ using System.Threading.Tasks;
 
 namespace ATTM.MeetingApp.Application.Features.Meetings.Commands.CreateMeeting
 {
-    public class CreateMeetingCommand : IRequest<Guid>
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public LocationsEnum Location { get; set; }
-        public int Seats { get; set; }
-    }
+public record CreateMeetingCommand(Guid Id, string Name, LocationsEnum Location, int Seats) : IRequest<Guid>;
 }

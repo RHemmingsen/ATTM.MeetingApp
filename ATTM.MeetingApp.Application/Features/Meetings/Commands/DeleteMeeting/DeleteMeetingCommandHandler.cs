@@ -26,6 +26,8 @@ namespace ATTM.MeetingApp.Application.Features.Meetings.Commands.DeleteEvent
             var meetingToDelete = await _meetingRepository.GetAsync(request.Id);
 
             meetingToDelete = meetingToDelete ?? throw new NotFoundException(nameof(Meeting), request.Id);
+            
+            //ArgumentException.ThrowIfNullOrEmpty(meetingToDelete.Id.ToString(), nameof(Meeting));
             await _meetingRepository.DeleteAsync(meetingToDelete);
         }
     }

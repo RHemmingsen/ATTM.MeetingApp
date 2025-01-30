@@ -4,7 +4,7 @@ using MediatR;
 
 namespace ATTM.MeetingApp.Application.Features.Meetings.Queries.GetMeetingList
 {
-    public class GetMeetingListQuery : IRequest<List<MeetingListVM>>
+    public record GetMeetingListQuery : IRequest<List<MeetingListVM>>
     {
         
     }

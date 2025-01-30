@@ -7,8 +7,5 @@ using MediatR;
 
 namespace ATTM.MeetingApp.Application.Features.Meetings.Commands.DeleteMeeting
 {
-    public class DeleteMeetingCommand : IRequest
-    {
-        public Guid Id { get; set; }
-    }
+    public record DeleteMeetingCommand(Guid Id) : IRequest;
 }

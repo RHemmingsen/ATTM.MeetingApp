@@ -7,8 +7,5 @@ using System.Threading.Tasks;
 
 namespace ATTM.MeetingApp.Application.Features.Meetings.Queries.GetMeeting
 {
-    public class GetMeetingQuery : IRequest<MeetingVM>
-    {
-        public Guid Id { get; set; }
-    }
+    public record GetMeetingQuery(Guid Id) : IRequest<MeetingVM>;
 }
