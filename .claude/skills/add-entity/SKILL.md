@@ -9,19 +9,18 @@ Adds `<Entity>` end to end, following the project's CLAUDE.md. Templates live in
 
 ## 1. Gather inputs
 
-Ask the user only for the entity name, its properties and (if not the default) the operations.
-Derive everything else yourself — never ask for it.
+Determine, asking the user only for what can't be inferred:
 
 | Placeholder      | Example          | Source                                                        |
 |------------------|------------------|---------------------------------------------------------------|
-| `{{Entity}}`     | `Room`           | **Ask** — singular PascalCase                                 |
-| Properties       | `Name: string(100), Capacity: int > 0, Kind: RoomKind enum` | **Ask** |
-| Operations       | Create/Update/Delete/Get/GetList | **Ask** only if the user hints at a subset; default is all |
-| `{{Solution}}`   | `ATTM.MeetingApp`| Derived: prefix of the `*.Domain.csproj` file                 |
-| `{{DbContext}}`  | `MeetingDbContext`| Derived: the class deriving from `DbContext` in Persistence  |
-| `{{Entities}}`   | `Rooms`          | Derived: English plural of `{{Entity}}` (confirm only if irregular, e.g. `Person` → `People`) |
-| `{{entity}}`     | `room`           | Derived: `{{Entity}}` with the first letter lower-cased       |
-| `{{entities}}`   | `rooms`          | Derived: `{{Entities}}` with the first letter lower-cased     |
+| `{{Solution}}`   | `ATTM.MeetingApp`| Prefix of the `*.Domain.csproj` file                          |
+| `{{Entity}}`     | `Room`           | User (singular PascalCase)                                    |
+| `{{Entities}}`   | `Rooms`          | Plural of Entity                                              |
+| `{{entity}}`     | `room`           | camelCase Entity                                              |
+| `{{entities}}`   | `rooms`          | camelCase Entities                                            |
+| `{{DbContext}}`  | `MeetingDbContext`| The class deriving from `DbContext` in Persistence           |
+| Properties       | `Name: string(100), Capacity: int > 0, Kind: RoomKind enum` | User |
+| Operations       | all of Create/Update/Delete/Get/GetList (default) | User      |
 
 For each property decide: C# type, required?, string max length, numeric range, enum. Max lengths become
 `public const int <Prop>MaxLength` on the entity so validators and EF config share them.
