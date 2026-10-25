@@ -1,34 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ATTM.MeetingApp.Application.Contracts;
 using ATTM.MeetingApp.Application.Exceptions;
-using ATTM.MeetingApp.Application.Features.Meetings.Commands.DeleteMeeting;
 using ATTM.MeetingApp.Domain.Entities;
-using AutoMapper;
 using MediatR;
 
-namespace ATTM.MeetingApp.Application.Features.Meetings.Commands.DeleteEvent
+namespace ATTM.MeetingApp.Application.Features.Meetings.Commands.DeleteMeeting;
+
+public class DeleteMeetingCommandHandler(IMeetingRepository meetingRepository)
+    : IRequestHandler<DeleteMeetingCommand>
 {
-    public class DeleteMeetingCommandHandler : IRequestHandler<DeleteMeetingCommand>
+    public async Task Handle(DeleteMeetingCommand request, CancellationToken cancellationToken)
     {
-        readonly IAsyncRepository<Meeting> _meetingRepository;
+        var meeting = await meetingRepository.GetAsync(request.Id, cancellationToken)
+            ?? throw new NotFoundException(nameof(Meeting), request.Id);
 
-        public DeleteMeetingCommandHandler(IAsyncRepository<Meeting> meetingRepository)
-        {
-            _meetingRepository = meetingRepository;
-        }
-
-        public async Task Handle(DeleteMeetingCommand request, CancellationToken cancellationToken)
-        {
-            var meetingToDelete = await _meetingRepository.GetAsync(request.Id);
-
-            meetingToDelete = meetingToDelete ?? throw new NotFoundException(nameof(Meeting), request.Id);
-            
-            //ArgumentException.ThrowIfNullOrEmpty(meetingToDelete.Id.ToString(), nameof(Meeting));
-            await _meetingRepository.DeleteAsync(meetingToDelete);
-        }
+        await meetingRepository.DeleteAsync(meeting, cancellationToken);
     }
 }

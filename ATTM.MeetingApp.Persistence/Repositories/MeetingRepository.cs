@@ -1,17 +1,12 @@
-﻿using ATTM.MeetingApp.Application.Contracts;
+using ATTM.MeetingApp.Application.Contracts;
 using ATTM.MeetingApp.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
-namespace ATTM.MeetingApp.Persistence.Repositories
+namespace ATTM.MeetingApp.Persistence.Repositories;
+
+public class MeetingRepository(MeetingDbContext dbContext)
+    : BaseRepository<Meeting>(dbContext), IMeetingRepository
 {
-    public class MeetingRepository : BaseRepository<Meeting>, IMeetingRepository
-    {
-        public MeetingRepository(MeetingDbContext dbContext) : base(dbContext)
-        {
-        }
-    }
+    public async Task<IReadOnlyList<Meeting>> ListOrderedBySeatsAsync(CancellationToken cancellationToken = default)
+        => await _dbContext.Meetings.AsNoTracking().OrderBy(x => x.Seats).ToListAsync(cancellationToken);
 }

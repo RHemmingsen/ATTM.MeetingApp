@@ -1,12 +1,7 @@
-using System;
+namespace ATTM.MeetingApp.API.Middleware;
 
-namespace ATTM.MeetingApp.API.Middleware
+public static class MiddlewareExtensions
 {
-    public static class MiddlewareExtensions
-    {
-        public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<ExceptionHandlerMiddleware>();
-        }
-    }
+    public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder builder)
+        => builder.UseMiddleware<ExceptionHandlerMiddleware>();
 }

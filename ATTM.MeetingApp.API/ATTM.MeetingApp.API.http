@@ -1,6 +1,28 @@
-@ATTM.MeetingApp.API_HostAddress = http://localhost:5062
+@HostAddress = http://localhost:5062
+@MeetingId = dc9930a3-079d-4f31-addd-f02141d7422f
 
-GET {{ATTM.MeetingApp.API_HostAddress}}/meetings/
+GET {{HostAddress}}/api/Meeting
 Accept: application/json
 
 ###
+
+GET {{HostAddress}}/api/Meeting/{{MeetingId}}
+Accept: application/json
+
+###
+
+POST {{HostAddress}}/api/Meeting
+Content-Type: application/json
+
+{ "name": "Planning", "location": "ConferenceRoom", "seats": 8 }
+
+###
+
+PUT {{HostAddress}}/api/Meeting/{{MeetingId}}
+Content-Type: application/json
+
+{ "name": "Meeting 1", "location": "Office", "seats": 12 }
+
+###
+
+DELETE {{HostAddress}}/api/Meeting/{{MeetingId}}

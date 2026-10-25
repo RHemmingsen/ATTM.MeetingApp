@@ -1,30 +1,19 @@
-﻿using ATTM.MeetingApp.Application.Contracts;
+using ATTM.MeetingApp.Application.Contracts;
+using ATTM.MeetingApp.Application.Exceptions;
+using ATTM.MeetingApp.Domain.Entities;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ATTM.MeetingApp.Application.Features.Meetings.Queries.GetMeeting
+namespace ATTM.MeetingApp.Application.Features.Meetings.Queries.GetMeeting;
+
+public class GetMeetingQueryHandler(IMeetingRepository meetingRepository, IMapper mapper)
+    : IRequestHandler<GetMeetingQuery, MeetingVM>
 {
-    public class GetMeetingQueryHandler : IRequestHandler<GetMeetingQuery, MeetingVM>
+    public async Task<MeetingVM> Handle(GetMeetingQuery request, CancellationToken cancellationToken)
     {
-        readonly IMeetingRepository _meetingRepository;
-        readonly IMapper _mapper;
+        var meeting = await meetingRepository.GetAsync(request.Id, cancellationToken)
+            ?? throw new NotFoundException(nameof(Meeting), request.Id);
 
-        public GetMeetingQueryHandler(IMeetingRepository meetingRepository, IMapper mapper)
-        {
-            _meetingRepository = meetingRepository;
-            _mapper = mapper;
-        }
-
-        public async Task<MeetingVM> Handle(GetMeetingQuery request, CancellationToken cancellationToken)
-        {
-            var meeting = await _meetingRepository.GetAsync(request.Id);
-            return _mapper.Map<MeetingVM>(meeting);
-        }
+        return mapper.Map<MeetingVM>(meeting);
     }
 }

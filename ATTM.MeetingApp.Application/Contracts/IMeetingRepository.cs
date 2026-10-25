@@ -1,13 +1,8 @@
-﻿using ATTM.MeetingApp.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ATTM.MeetingApp.Domain.Entities;
 
-namespace ATTM.MeetingApp.Application.Contracts
+namespace ATTM.MeetingApp.Application.Contracts;
+
+public interface IMeetingRepository : IAsyncRepository<Meeting>
 {
-    public interface IMeetingRepository : IAsyncRepository<Meeting>
-    {
-    }
+    Task<IReadOnlyList<Meeting>> ListOrderedBySeatsAsync(CancellationToken cancellationToken = default);
 }

@@ -1,19 +1,23 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ATTM.MeetingApp.Application.Behaviors;
+using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace ATTM.MeetingApp.Application
+namespace ATTM.MeetingApp.Application;
+
+public static class ApplicationServiceRegistration
 {
-    public static class ApplicationServiceRegistration
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        var assembly = typeof(ApplicationServiceRegistration).Assembly;
+
+        services.AddAutoMapper(assembly);
+        services.AddValidatorsFromAssembly(assembly);
+        services.AddMediatR(config =>
         {
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddMediatR(config => config.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
-            return services;
-        }
+            config.RegisterServicesFromAssembly(assembly);
+            config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+        });
+
+        return services;
     }
 }

@@ -1,61 +1,45 @@
-using System;
-using System.Net;
-using System.Text.Json;
 using ATTM.MeetingApp.Application.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 
-namespace ATTM.MeetingApp.API.Middleware
+namespace ATTM.MeetingApp.API.Middleware;
+
+public class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
 {
-    public class ExceptionHandlerMiddleware
+    public async Task InvokeAsync(HttpContext context)
     {
-        private readonly RequestDelegate _next;
-
-        public ExceptionHandlerMiddleware(RequestDelegate next)
+        try
         {
-            _next = next;
+            await next(context);
+        }
+        catch (Exception exception)
+        {
+            await WriteProblemAsync(context, exception);
+        }
+    }
+
+    private async Task WriteProblemAsync(HttpContext context, Exception exception)
+    {
+        var problem = new ProblemDetails();
+
+        switch (exception)
+        {
+            case ValidationException validationException:
+                problem.Status = StatusCodes.Status400BadRequest;
+                problem.Title = validationException.Message;
+                problem.Extensions["errors"] = validationException.ValidationErrors;
+                break;
+            case NotFoundException:
+                problem.Status = StatusCodes.Status404NotFound;
+                problem.Title = exception.Message;
+                break;
+            default:
+                logger.LogError(exception, "Unhandled exception");
+                problem.Status = StatusCodes.Status500InternalServerError;
+                problem.Title = "An unexpected error occurred.";
+                break;
         }
 
-        public async Task Invoke(HttpContext context)
-        {
-            try
-            {
-                await _next(context);
-            }
-            catch (Exception ex)
-            {
-                await ConvertException(context, ex);
-            }
-        }
-
-        private Task ConvertException(HttpContext context, Exception exception)
-        {
-            HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError;
-
-            context.Response.ContentType = "application/json";
-
-            var result = string.Empty;
-
-            switch (exception)
-            {
-                case ValidationException validationException:
-                    httpStatusCode = HttpStatusCode.BadRequest;
-                    result = JsonSerializer.Serialize(validationException.ValidationErrors);
-                    break;
-                case NotFoundException:
-                    httpStatusCode = HttpStatusCode.NotFound;
-                    break;
-                case Exception:
-                    httpStatusCode = HttpStatusCode.BadRequest;
-                    break;
-            }
-
-            context.Response.StatusCode = (int)httpStatusCode;
-
-            if (result == string.Empty)
-            {
-                result = JsonSerializer.Serialize(new { error = exception.Message });
-            }
-
-            return context.Response.WriteAsync(result);
-        }
+        context.Response.StatusCode = problem.Status.Value;
+        await context.Response.WriteAsJsonAsync(problem, options: null, contentType: "application/problem+json");
     }
 }

@@ -1,25 +1,20 @@
-﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ATTM.MeetingApp.Domain.Entities;
+using FluentValidation;
 
-namespace ATTM.MeetingApp.Application.Features.Meetings.Commands.CreateMeeting
+namespace ATTM.MeetingApp.Application.Features.Meetings.Commands.CreateMeeting;
+
+public class CreateMeetingCommandValidator : AbstractValidator<CreateMeetingCommand>
 {
-    public class CreateMeetingCommandValidator : AbstractValidator<CreateMeetingCommand>
+    public CreateMeetingCommandValidator()
     {
-        public CreateMeetingCommandValidator()
-        {
-            RuleFor(p => p.Name)
-                .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull()
-                .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
-            RuleFor(p => p.Location)
-                .NotEmpty().WithMessage("{PropertyName} is required.");
-            RuleFor(p => p.Seats)
-                .NotEmpty().WithMessage("{PropertyName} is required.")
-                .GreaterThan(0).WithMessage("{PropertyName} must be greater than 0.");
-        }
+        RuleFor(p => p.Name)
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .MaximumLength(Meeting.NameMaxLength).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");
+
+        RuleFor(p => p.Location)
+            .IsInEnum().WithMessage("{PropertyName} is not a valid location.");
+
+        RuleFor(p => p.Seats)
+            .GreaterThan(0).WithMessage("{PropertyName} must be greater than 0.");
     }
 }

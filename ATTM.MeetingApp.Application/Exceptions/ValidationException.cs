@@ -1,19 +1,9 @@
-using System;
 using FluentValidation.Results;
 
-namespace ATTM.MeetingApp.Application.Exceptions
-{
-    public class ValidationException : Exception
-    {
-        public List<string> ValidationErrors { get; set; }
+namespace ATTM.MeetingApp.Application.Exceptions;
 
-        public ValidationException(ValidationResult result)
-        {
-            ValidationErrors = new List<string>();
-            foreach (var error in result.Errors)
-            {
-                ValidationErrors.Add(error.ErrorMessage);
-            }
-        }
-    }
+public class ValidationException(IEnumerable<ValidationFailure> failures)
+    : Exception("One or more validation errors occurred.")
+{
+    public IReadOnlyList<string> ValidationErrors { get; } = failures.Select(f => f.ErrorMessage).ToList();
 }
