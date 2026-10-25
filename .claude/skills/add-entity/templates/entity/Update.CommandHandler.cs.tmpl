@@ -1,0 +1,20 @@
+using {{Solution}}.Application.Contracts;
+using {{Solution}}.Application.Exceptions;
+using {{Solution}}.Domain.Entities;
+using AutoMapper;
+using MediatR;
+
+namespace {{Solution}}.Application.Features.{{Entities}}.Commands.Update{{Entity}};
+
+public class Update{{Entity}}CommandHandler(I{{Entity}}Repository {{entity}}Repository, IMapper mapper)
+    : IRequestHandler<Update{{Entity}}Command>
+{
+    public async Task Handle(Update{{Entity}}Command request, CancellationToken cancellationToken)
+    {
+        var {{entity}} = await {{entity}}Repository.GetAsync(request.Id, cancellationToken)
+            ?? throw new NotFoundException(nameof({{Entity}}), request.Id);
+
+        mapper.Map(request, {{entity}});
+        await {{entity}}Repository.UpdateAsync({{entity}}, cancellationToken);
+    }
+}

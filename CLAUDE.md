@@ -184,6 +184,15 @@ Secrets never go in committed `appsettings*.json`. Local development must work w
 - Each new handler gets at least a happy-path test and a not-found/invalid test; each validator gets tests per rule.
 - Test names: `<Handler>_<Scenario>_<Expected>`.
 
+## Skills
+
+Use these skills (in `.claude/skills/` or `~/.claude/skills/`) instead of working from memory:
+
+- `add-entity` — new entity with full CRUD through all layers, from templates.
+- `add-use-case` — a single command or query on an existing entity.
+- `add-infrastructure-service` — an external dependency behind an Application contract.
+- `architecture-check` — audit the solution against these rules (`check.sh` + review list).
+
 ## Adding a new entity — checklist
 
 1. `Domain/Entities/<Entity>.cs` (+ enums).

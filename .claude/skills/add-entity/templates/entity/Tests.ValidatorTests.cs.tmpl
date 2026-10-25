@@ -1,0 +1,24 @@
+using {{Solution}}.Application.Features.{{Entities}}.Commands.Create{{Entity}};
+using {{Solution}}.Domain.Entities;
+
+namespace {{Solution}}.UnitTests.{{Entities}};
+
+public class Create{{Entity}}CommandValidatorTests
+{
+    private readonly Create{{Entity}}CommandValidator _validator = new();
+
+    [Fact]
+    public void Validate_ValidCommand_Passes()
+        => Assert.True(_validator.Validate(new Create{{Entity}}Command("Valid")).IsValid);
+
+    [Theory]
+    [InlineData("")]
+    public void Validate_EmptyName_Fails(string name)
+        => Assert.False(_validator.Validate(new Create{{Entity}}Command(name)).IsValid);
+
+    [Fact]
+    public void Validate_NameTooLong_Fails()
+        => Assert.False(_validator.Validate(new Create{{Entity}}Command(new string('x', {{Entity}}.NameMaxLength + 1))).IsValid);
+
+    // PROPERTIES — one test per rule (enum out of range, numeric bounds, ...).
+}

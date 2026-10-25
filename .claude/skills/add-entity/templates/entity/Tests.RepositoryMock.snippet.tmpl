@@ -1,0 +1,20 @@
+    // Add to UnitTests/Mocks/RepositoryMocks.cs
+    public static Mock<I{{Entity}}Repository> Get{{Entity}}Repository()
+    {
+        var {{entities}} = new List<{{Entity}}>
+        {
+            new() { Id = new Guid("00000000-0000-0000-0000-000000000001"), Name = "{{Entity}} 1" },
+            new() { Id = new Guid("00000000-0000-0000-0000-000000000002"), Name = "{{Entity}} 2" },
+        };
+
+        var mock = new Mock<I{{Entity}}Repository>();
+        mock.Setup(r => r.ListAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync({{entities}});
+        mock.Setup(r => r.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Guid id, CancellationToken _) => {{entities}}.FirstOrDefault(x => x.Id == id));
+        mock.Setup(r => r.AddAsync(It.IsAny<{{Entity}}>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(({{Entity}} e, CancellationToken _) => { {{entities}}.Add(e); return e; });
+        mock.Setup(r => r.DeleteAsync(It.IsAny<{{Entity}}>(), It.IsAny<CancellationToken>()))
+            .Callback(({{Entity}} e, CancellationToken _) => {{entities}}.Remove(e))
+            .Returns(Task.CompletedTask);
+        return mock;
+    }

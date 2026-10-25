@@ -1,0 +1,8 @@
+namespace {{Solution}}.Application.Features.{{Entities}}.Queries.Get{{Entity}};
+
+public record {{Entity}}VM
+{
+    public Guid Id { get; init; }
+    // PROPERTIES — everything the detail view needs.
+    public string Name { get; init; } = string.Empty;
+}

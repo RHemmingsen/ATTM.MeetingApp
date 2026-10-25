@@ -1,0 +1,18 @@
+using {{Solution}}.Application.Contracts;
+using {{Solution}}.Application.Exceptions;
+using {{Solution}}.Domain.Entities;
+using MediatR;
+
+namespace {{Solution}}.Application.Features.{{Entities}}.Commands.Delete{{Entity}};
+
+public class Delete{{Entity}}CommandHandler(I{{Entity}}Repository {{entity}}Repository)
+    : IRequestHandler<Delete{{Entity}}Command>
+{
+    public async Task Handle(Delete{{Entity}}Command request, CancellationToken cancellationToken)
+    {
+        var {{entity}} = await {{entity}}Repository.GetAsync(request.Id, cancellationToken)
+            ?? throw new NotFoundException(nameof({{Entity}}), request.Id);
+
+        await {{entity}}Repository.DeleteAsync({{entity}}, cancellationToken);
+    }
+}

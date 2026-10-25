@@ -1,0 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+
+namespace {{Solution}}.Persistence;
+
+public class {{DbContext}}(DbContextOptions<{{DbContext}}> options) : DbContext(options)
+{
+    // One DbSet per aggregate; add-entity appends here.
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof({{DbContext}}).Assembly);
+    }
+}

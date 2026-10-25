@@ -1,0 +1,9 @@
+using {{Solution}}.Application.Contracts;
+using {{Solution}}.Domain.Entities;
+
+namespace {{Solution}}.Persistence.Repositories;
+
+public class {{Entity}}Repository({{DbContext}} dbContext)
+    : BaseRepository<{{Entity}}>(dbContext), I{{Entity}}Repository
+{
+}

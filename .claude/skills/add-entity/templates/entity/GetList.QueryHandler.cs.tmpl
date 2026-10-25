@@ -1,0 +1,16 @@
+using {{Solution}}.Application.Contracts;
+using AutoMapper;
+using MediatR;
+
+namespace {{Solution}}.Application.Features.{{Entities}}.Queries.Get{{Entity}}List;
+
+public class Get{{Entity}}ListQueryHandler(I{{Entity}}Repository {{entity}}Repository, IMapper mapper)
+    : IRequestHandler<Get{{Entity}}ListQuery, List<{{Entity}}ListVM>>
+{
+    public async Task<List<{{Entity}}ListVM>> Handle(Get{{Entity}}ListQuery request, CancellationToken cancellationToken)
+    {
+        // Need sorting/filtering? Add a method to I{{Entity}}Repository so it runs in the database.
+        var {{entities}} = await {{entity}}Repository.ListAllAsync(cancellationToken);
+        return mapper.Map<List<{{Entity}}ListVM>>({{entities}});
+    }
+}
