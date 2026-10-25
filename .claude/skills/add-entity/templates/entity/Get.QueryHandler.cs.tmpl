@@ -1,0 +1,19 @@
+using {{Solution}}.Application.Contracts;
+using {{Solution}}.Application.Exceptions;
+using {{Solution}}.Domain.Entities;
+using AutoMapper;
+using MediatR;
+
+namespace {{Solution}}.Application.Features.{{Entities}}.Queries.Get{{Entity}};
+
+public class Get{{Entity}}QueryHandler(I{{Entity}}Repository {{entity}}Repository, IMapper mapper)
+    : IRequestHandler<Get{{Entity}}Query, {{Entity}}VM>
+{
+    public async Task<{{Entity}}VM> Handle(Get{{Entity}}Query request, CancellationToken cancellationToken)
+    {
+        var {{entity}} = await {{entity}}Repository.GetAsync(request.Id, cancellationToken)
+            ?? throw new NotFoundException(nameof({{Entity}}), request.Id);
+
+        return mapper.Map<{{Entity}}VM>({{entity}});
+    }
+}

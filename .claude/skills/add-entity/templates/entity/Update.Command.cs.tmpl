@@ -1,0 +1,10 @@
+using MediatR;
+
+namespace {{Solution}}.Application.Features.{{Entities}}.Commands.Update{{Entity}};
+
+// Id is bound from the route by the controller (`command with { Id = id }`).
+public record Update{{Entity}}Command(
+    Guid Id,
+    // PROPERTIES
+    string Name
+) : IRequest;

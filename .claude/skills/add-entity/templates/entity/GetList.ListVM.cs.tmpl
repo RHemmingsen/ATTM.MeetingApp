@@ -1,0 +1,8 @@
+namespace {{Solution}}.Application.Features.{{Entities}}.Queries.Get{{Entity}}List;
+
+public record {{Entity}}ListVM
+{
+    public Guid Id { get; init; }
+    // PROPERTIES — only what a list row needs.
+    public string Name { get; init; } = string.Empty;
+}

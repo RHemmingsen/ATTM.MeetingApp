@@ -1,0 +1,5 @@
+using MediatR;
+
+namespace {{Solution}}.Application.Features.{{Entities}}.Queries.Get{{Entity}};
+
+public record Get{{Entity}}Query(Guid Id) : IRequest<{{Entity}}VM>;

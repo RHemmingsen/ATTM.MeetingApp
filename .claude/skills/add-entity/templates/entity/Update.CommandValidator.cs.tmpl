@@ -1,0 +1,17 @@
+using {{Solution}}.Domain.Entities;
+using FluentValidation;
+
+namespace {{Solution}}.Application.Features.{{Entities}}.Commands.Update{{Entity}};
+
+public class Update{{Entity}}CommandValidator : AbstractValidator<Update{{Entity}}Command>
+{
+    public Update{{Entity}}CommandValidator()
+    {
+        RuleFor(p => p.Id).NotEmpty();
+
+        // PROPERTIES — keep identical to Create{{Entity}}CommandValidator.
+        RuleFor(p => p.Name)
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .MaximumLength({{Entity}}.NameMaxLength).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");
+    }
+}

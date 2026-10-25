@@ -1,0 +1,45 @@
+using {{Solution}}.Application;
+using {{Solution}}.Application.Contracts;
+using {{Solution}}.Application.Exceptions;
+using {{Solution}}.Application.Features.{{Entities}}.Commands.Create{{Entity}};
+using {{Solution}}.Application.Features.{{Entities}}.Commands.Delete{{Entity}};
+using {{Solution}}.Application.Features.{{Entities}}.Queries.Get{{Entity}};
+using {{Solution}}.UnitTests.Mocks;
+using AutoMapper;
+using Moq;
+
+namespace {{Solution}}.UnitTests.{{Entities}};
+
+public class {{Entity}}HandlerTests
+{
+    private readonly Mock<I{{Entity}}Repository> _repository = RepositoryMocks.Get{{Entity}}Repository();
+    private readonly IMapper _mapper = new MapperConfiguration(c => c.AddProfile<MappingProfiles>()).CreateMapper();
+
+    [Fact]
+    public async Task Create{{Entity}}CommandHandler_ValidCommand_Adds{{Entity}}()
+    {
+        var handler = new Create{{Entity}}CommandHandler(_repository.Object, _mapper);
+
+        var id = await handler.Handle(new Create{{Entity}}Command("New {{entity}}"), CancellationToken.None);
+
+        var all = await _repository.Object.ListAllAsync();
+        Assert.Equal(3, all.Count);
+        Assert.Contains(all, x => x.Id == id);
+    }
+
+    [Fact]
+    public async Task Get{{Entity}}QueryHandler_UnknownId_ThrowsNotFound()
+    {
+        var handler = new Get{{Entity}}QueryHandler(_repository.Object, _mapper);
+
+        await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(new Get{{Entity}}Query(Guid.NewGuid()), CancellationToken.None));
+    }
+
+    [Fact]
+    public async Task Delete{{Entity}}CommandHandler_UnknownId_ThrowsNotFound()
+    {
+        var handler = new Delete{{Entity}}CommandHandler(_repository.Object);
+
+        await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(new Delete{{Entity}}Command(Guid.NewGuid()), CancellationToken.None));
+    }
+}

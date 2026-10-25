@@ -1,0 +1,17 @@
+using {{Solution}}.Application.Contracts;
+using {{Solution}}.Domain.Entities;
+using AutoMapper;
+using MediatR;
+
+namespace {{Solution}}.Application.Features.{{Entities}}.Commands.Create{{Entity}};
+
+public class Create{{Entity}}CommandHandler(I{{Entity}}Repository {{entity}}Repository, IMapper mapper)
+    : IRequestHandler<Create{{Entity}}Command, Guid>
+{
+    public async Task<Guid> Handle(Create{{Entity}}Command request, CancellationToken cancellationToken)
+    {
+        var {{entity}} = mapper.Map<{{Entity}}>(request);
+        {{entity}} = await {{entity}}Repository.AddAsync({{entity}}, cancellationToken);
+        return {{entity}}.Id;
+    }
+}

@@ -1,0 +1,15 @@
+using {{Solution}}.Domain.Entities;
+using FluentValidation;
+
+namespace {{Solution}}.Application.Features.{{Entities}}.Commands.Create{{Entity}};
+
+public class Create{{Entity}}CommandValidator : AbstractValidator<Create{{Entity}}Command>
+{
+    public Create{{Entity}}CommandValidator()
+    {
+        // PROPERTIES — one RuleFor per input. Enums: .IsInEnum(). Numbers: ranges. Strings: NotEmpty + MaximumLength(<Entity>.XMaxLength).
+        RuleFor(p => p.Name)
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .MaximumLength({{Entity}}.NameMaxLength).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");
+    }
+}

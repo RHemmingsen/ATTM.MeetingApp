@@ -1,0 +1,8 @@
+using MediatR;
+
+namespace {{Solution}}.Application.Features.{{Entities}}.Commands.Create{{Entity}};
+
+public record Create{{Entity}}Command(
+    // PROPERTIES (no Id)
+    string Name
+) : IRequest<Guid>;
