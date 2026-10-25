@@ -19,6 +19,7 @@ Determine, asking the user only for what can't be inferred:
 | `{{entity}}`     | `room`           | camelCase Entity                                              |
 | `{{entities}}`   | `rooms`          | camelCase Entities                                            |
 | `{{DbContext}}`  | `MeetingDbContext`| The class deriving from `DbContext` in Persistence           |
+| `{{UseProvider}}`| `UseNpgsql`      | The EF provider call already in `PersistenceServiceRegistration`; only needed when creating the foundation — then ask (`UseNpgsql`, `UseSqlServer`, `UseSqlite`, …) |
 | Properties       | `Name: string(100), Capacity: int > 0, Kind: RoomKind enum` | User |
 | Operations       | all of Create/Update/Delete/Get/GetList (default) | User      |
 
@@ -50,8 +51,8 @@ Packages the foundation needs:
 | Project     | Packages                                                                                   |
 |-------------|--------------------------------------------------------------------------------------------|
 | Application | `MediatR`, `AutoMapper`, `FluentValidation`, `FluentValidation.DependencyInjectionExtensions` |
-| Persistence | the EF Core provider (e.g. `Npgsql.EntityFrameworkCore.PostgreSQL`), `Microsoft.EntityFrameworkCore.Design` |
-| API         | `Swashbuckle.AspNetCore`; with Key Vault: `Azure.Extensions.AspNetCore.Configuration.Secrets`, `Azure.Identity` |
+| Persistence | the project's EF Core provider package (e.g. `Npgsql.EntityFrameworkCore.PostgreSQL`, `Microsoft.EntityFrameworkCore.SqlServer`), `Microsoft.EntityFrameworkCore.Design` |
+| API         | `Swashbuckle.AspNetCore`, `Microsoft.EntityFrameworkCore.Tools` (for `dotnet ef`) |
 | UnitTests   | `xunit`, `xunit.runner.visualstudio`, `Microsoft.NET.Test.Sdk`, `Moq`                       |
 
 The foundation templates target MediatR 12 (`next()` without arguments) and AutoMapper 13. On MediatR 13+, call

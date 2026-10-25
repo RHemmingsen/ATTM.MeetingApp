@@ -11,7 +11,7 @@ public static class PersistenceServiceRegistration
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<{{DbContext}}>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("Database")));
+            options.{{UseProvider}}(configuration.GetConnectionString("Database")));
 
         services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseRepository<>));
         // One AddScoped<I<Entity>Repository, <Entity>Repository>() per aggregate; add-entity appends here.

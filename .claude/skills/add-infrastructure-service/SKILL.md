@@ -66,8 +66,9 @@ Call `builder.Services.AddInfrastructureServices(builder.Configuration);` in `Pr
 - HTTP clients: `services.AddHttpClient<I<Service>, <Impl>>(...)` (typed client), base address from settings.
 - Register with the right lifetime (stateless/HTTP → transient or typed client; holds connections → singleton).
 - Vendor SDK packages are referenced by Infrastructure only.
-- Secrets: add the config keys to `appsettings.json` with empty values, document them, and store the real values in
-  user-secrets locally and Key Vault in deployed environments (`<Area>--ApiKey` naming). Never commit secrets.
+- Secrets: add the config keys to `appsettings.json` with empty values and document them. Real values come from
+  user-secrets locally and from the deployment environment as configuration (e.g. env var `<Area>__ApiKey`).
+  Never commit secrets, and never reference a specific secret store or cloud SDK from code.
 
 ## 4. Use it
 

@@ -23,7 +23,7 @@ PASS/FAIL per rule with `file:line` for every violation. Exit code 1 means at le
 | A4  | A MediatR pipeline behavior exists |
 | A5  | Contract async methods take `CancellationToken` |
 | A6–A9 | Feature folder layout, names match folders, namespaces match folders, file name = type name |
-| P1–P4 | No inline `OnModelCreating` config, no `Guid.NewGuid()` seeds, migration warning not suppressed, no secret fetching in Persistence |
+| P1–P5 | No inline `OnModelCreating` config, no `Guid.NewGuid()` seeds, migration warning not suppressed, no secret fetching in Persistence, DB provider confined to Persistence |
 | C1–C4 | `ControllerBase`, no repositories/mapper in controllers, no try/catch, 500 mapping present |
 | H1  | No empty `<Folder Include>` entries |
 
@@ -40,7 +40,7 @@ Read the code for these, citing `file:line`:
 - **Validation** — rules only check input shape; enums use `IsInEnum()`; limits come from shared constants that EF config also uses; Create and Update rules agree.
 - **Handlers** — throw `NotFoundException` for unknown ids; pass `CancellationToken` everywhere; no filtering/sorting in memory after `ListAllAsync`.
 - **Error mapping** — every exception in `Application/Exceptions` is mapped in the middleware; unknown exceptions give 500 without leaking the message.
-- **Configuration** — Program.cs is a short composition root; secrets come from configuration sources, never from code in Persistence/Infrastructure; the app starts locally without cloud access.
+- **Configuration** — Program.cs is a short composition root using only default configuration sources; no code references a specific secret store or cloud SDK; the app starts locally without cloud access.
 - **Tests** — each handler has happy-path and not-found/invalid tests; each validator rule is tested; tests use the real AutoMapper profile.
 
 ## 3. Report

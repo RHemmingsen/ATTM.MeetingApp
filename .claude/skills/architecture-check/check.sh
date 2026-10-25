@@ -117,8 +117,15 @@ if [ -n "$PERSIST" ]; then
   rule P3 "PendingModelChangesWarning is not suppressed" \
     "$(grep_cs "$PERSIST" 'PendingModelChangesWarning')"
 
-  rule P4 "Persistence does not fetch secrets itself (Key Vault belongs in Program.cs configuration)" \
+  rule P4 "Persistence does not fetch secrets itself (secrets arrive through IConfiguration)" \
     "$(grep_cs "$PERSIST" '(SecretClient|DefaultAzureCredential)')"
+
+  PROVIDER_PKG='PackageReference Include="(Npgsql\.EntityFrameworkCore|Microsoft\.EntityFrameworkCore\.(SqlServer|Sqlite|Cosmos|InMemory)|Pomelo\.EntityFrameworkCore|MySql\.EntityFrameworkCore|Oracle\.EntityFrameworkCore)'
+  rule P5 "DB provider is confined to Persistence (package + Use<Provider> in PersistenceServiceRegistration)" \
+    "$(find . -name '*.csproj' -not -path "./${PERSIST#./}/*" -not -path '*/bin/*' -not -path '*/obj/*' | xargs grep -HnE "$PROVIDER_PKG"
+       for d in "$DOMAIN" "$APP" "$API" "$PERSIST"; do
+         grep_cs "$d" '\.Use(Npgsql|SqlServer|Sqlite|Cosmos|MySql|Oracle|InMemoryDatabase)\(' | grep -v '/PersistenceServiceRegistration\.cs:'
+       done)"
 fi
 
 # --- API ---------------------------------------------------------------------
